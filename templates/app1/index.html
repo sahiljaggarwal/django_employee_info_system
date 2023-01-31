@@ -1,0 +1,56 @@
+{%extends 'app1/base.html' %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Forms -->
+    <div class="row">
+        <div class="col col-8 offset-2">
+            <h2 class="alert alert-warning text-center">Employee Registration Form</h2>
+            <form  method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="submit" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<br><br><br>
+<h3 class="alert alert-warning text-center">Employee Records</h3>
+<table class="table my-5">
+    <thead class="thread">
+      <tr>
+        <th scope="col">Sno.</th>
+        <th scope="col">Name</th>
+        <th scope="col">Password</th>
+        <th scope="col">Email</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        <!-- Display Data -->
+        {% for i in data %}
+        <tr>
+            <th scope="row">{{i.id}}</th>
+            <td>{{i.name}}</td>
+            <td>{{i.password}}</td>
+            <td>{{i.email}}</td>
+            <td>
+                <!-- Update  -->
+                <a href="{% url 'update' i.id%}">
+                <i class="fa-solid fa-user-pen"></i>
+                </a>
+                <!-- Delete -->
+                <form action="{% url  'delete' i.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit"><i class="fa-solid fa-trash-can"></i></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+  </table>
+{% endblock content %}
